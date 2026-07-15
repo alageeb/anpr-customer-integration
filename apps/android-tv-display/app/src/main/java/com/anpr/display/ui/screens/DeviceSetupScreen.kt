@@ -22,6 +22,7 @@ import com.anpr.display.data.model.DeviceConfig
 import com.anpr.display.data.model.DisplayMode
 import com.anpr.display.data.model.Language
 import com.anpr.display.ui.theme.*
+import kotlinx.coroutines.launch
 
 @Composable
 fun DeviceSetupScreen(
@@ -40,6 +41,7 @@ fun DeviceSetupScreen(
     var testResult by remember { mutableStateOf<String?>(null) }
     var isTesting by remember { mutableStateOf(false) }
     val focusRequester = remember { FocusRequester() }
+    val coroutineScope = rememberCoroutineScope()
 
     LaunchedEffect(Unit) {
         focusRequester.requestFocus()
@@ -227,9 +229,11 @@ fun DeviceSetupScreen(
                     onClick = {
                         isTesting = true
                         testResult = null
-                        onTestConnection()
-                        isTesting = false
-                        testResult = "تم الفحص"
+                        coroutineScope.launch {
+                            onTestConnection()
+                            isTesting = false
+                            testResult = "تم الفحص"
+                        }
                     },
                     isPrimary = true
                 )
