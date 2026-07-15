@@ -1,0 +1,25 @@
+version: '3.8'
+
+services:
+  anpr-backend:
+    build: .
+    ports:
+      - "3000:3000"
+    environment:
+      - NODE_ENV=production
+      - PORT=3000
+      - CUSTOMER_DB_MOCK_MODE=true
+      - ANPR_INTEGRATION_SECRET=${ANPR_SECRET:-demo-secret}
+      - QUEUE_DASHBOARD_PIN=${DASHBOARD_PIN:-1234}
+      - CORS_ORIGIN=*
+    restart: unless-stopped
+    volumes:
+      - queue-data:/app/data
+    healthcheck:
+      test: ["CMD", "wget", "--spider", "-q", "http://localhost:3000/health"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+
+volumes:
+  queue-data:

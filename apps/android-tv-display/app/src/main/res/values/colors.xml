@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="dark_background">#FF0F172A</color>
+    <color name="dark_surface">#FF1E293B</color>
+    <color name="accent_blue">#FF38BDF8</color>
+    <color name="accent_green">#FF34D399</color>
+    <color name="accent_red">#FFF87171</color>
+    <color name="accent_yellow">#FFFBBF24</color>
+    <color name="text_primary">#FFE2E8F0</color>
+    <color name="text_secondary">#FF94A3B8</color>
+    <color name="text_muted">#FF64748B</color>
+    <color name="border_color">#FF334155</color>
+</resources>

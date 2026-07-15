@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">ANPR Display</string>
+    <string name="welcome_title">مرحباً</string>
+    <string name="queue_now_serving">الآن في الخدمة</string>
+    <string name="queue_waiting">قائمة الانتظار</string>
+    <string name="settings_title">إعدادات الشاشة</string>
+    <string name="settings_pin_prompt">أدخل رمز الدخول</string>
+    <string name="settings_pin_error">رمز خاطئ</string>
+    <string name="settings_save">حفظ وبدء</string>
+    <string name="settings_back">رجوع</string>
+    <string name="settings_test_connection">فحص الاتصال</string>
+    <string name="settings_connection_success">الاتصال ناجح</string>
+    <string name="settings_connection_fail">فشل الاتصال</string>
+    <string name="connection_connected">متصل</string>
+    <string name="connection_connecting">جاري الاتصال…</string>
+    <string name="connection_disconnected">غير متصل</string>
+    <string name="no_customers">لا يوجد عملاء حالياً</string>
+    <string name="empty_queue">قائمة الانتظار فارغة</string>
+    <string name="lane">الممر</string>
+    <string name="ticket_number">رقم التذكرة</string>
+    <string name="wait_time">دقيقة</string>
+</resources>
