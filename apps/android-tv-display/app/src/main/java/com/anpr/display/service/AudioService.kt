@@ -2,8 +2,8 @@ package com.anpr.display.service
 
 import android.content.Context
 import android.media.AudioAttributes
-import android.media.MediaPlayer
-import com.anpr.display.R
+import android.media.AudioManager
+import android.media.ToneGenerator
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 
@@ -12,42 +12,21 @@ class AudioService(private val context: Context) {
     private val _isPlaying = MutableStateFlow(false)
     val isPlaying: StateFlow<Boolean> = _isPlaying
 
-    private var welcomePlayer: MediaPlayer? = null
-    private var callPlayer: MediaPlayer? = null
-
-    private val audioAttributes = AudioAttributes.Builder()
-        .setUsage(AudioAttributes.USAGE_NOTIFICATION)
-        .setContentType(AudioAttributes.CONTENT_TYPE_SONIFICATION)
-        .build()
+    private var toneGenerator: ToneGenerator? = null
 
     init {
         try {
-            welcomePlayer = MediaPlayer.create(context, R.raw.welcome).apply {
-                setAudioAttributes(audioAttributes)
-                setOnCompletionListener { _isPlaying.value = false }
-            }
+            toneGenerator = ToneGenerator(AudioManager.STREAM_NOTIFICATION, 80)
         } catch (_: Exception) {
-            // Sound file may not exist yet
-        }
-
-        try {
-            callPlayer = MediaPlayer.create(context, R.raw.call).apply {
-                setAudioAttributes(audioAttributes)
-                setOnCompletionListener { _isPlaying.value = false }
-            }
-        } catch (_: Exception) {
-            // Sound file may not exist
+            // Audio not available
         }
     }
 
     fun playWelcomeSound() {
         try {
-            welcomePlayer?.let {
-                if (it.isPlaying) it.stop()
-                it.prepare()
-                it.start()
-                _isPlaying.value = true
-            }
+            _isPlaying.value = true
+            toneGenerator?.startTone(ToneGenerator.TONE_PROP_BEEP, 300)
+            _isPlaying.value = false
         } catch (_: Exception) {
             // Ignore playback errors
         }
@@ -55,21 +34,16 @@ class AudioService(private val context: Context) {
 
     fun playCallSound() {
         try {
-            callPlayer?.let {
-                if (it.isPlaying) it.stop()
-                it.prepare()
-                it.start()
-                _isPlaying.value = true
-            }
+            _isPlaying.value = true
+            toneGenerator?.startTone(ToneGenerator.TONE_CDMA_ALERT_CALL_GUARD, 500)
+            _isPlaying.value = false
         } catch (_: Exception) {
             // Ignore playback errors
         }
     }
 
     fun release() {
-        welcomePlayer?.release()
-        callPlayer?.release()
-        welcomePlayer = null
-        callPlayer = null
+        toneGenerator?.release()
+        toneGenerator = null
     }
 }
