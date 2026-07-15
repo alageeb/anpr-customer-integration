@@ -282,5 +282,3 @@ private fun formatCurrentTime(): String {
     val sdf = SimpleDateFormat("HH:mm:ss", Locale.getDefault())
     return sdf.format(Date())
 }
-
-private val sp = androidx.compose.ui.unit.sp
