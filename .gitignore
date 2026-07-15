@@ -4,3 +4,11 @@ dist/
 *.log
 coverage/
 *.db
+
+# Android / Gradle
+.gradle/
+.idea/
+local.properties
+*.apk
+*.aab
+build/
