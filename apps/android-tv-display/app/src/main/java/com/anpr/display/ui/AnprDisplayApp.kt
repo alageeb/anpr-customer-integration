@@ -14,6 +14,7 @@ import com.anpr.display.ui.screens.*
 import com.anpr.display.ui.theme.DarkBackground
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.launch
 
 enum class AppScreen {
     SETUP,
@@ -40,6 +41,7 @@ fun AnprDisplayApp(
 
     val webSocketService = remember { ServiceLocator.webSocketService() }
     val mockDataProvider = remember { ServiceLocator.mockDataProvider() }
+    val coroutineScope = rememberCoroutineScope()
 
     // Initialize connection when config is ready
     LaunchedEffect(config) {
@@ -110,7 +112,9 @@ fun AnprDisplayApp(
             },
             onSaveSettings = { newConfig ->
                 val repository = ServiceLocator.settingsRepository()
-                repository.saveConfig(newConfig.copy(isConfigured = true))
+                coroutineScope.launch {
+                    repository.saveConfig(newConfig.copy(isConfigured = true))
+                }
                 config = newConfig.copy(isConfigured = true)
                 showSettings = false
                 currentScreen = AppScreen.QUEUE
@@ -129,7 +133,9 @@ fun AnprDisplayApp(
                     },
                     onSave = {
                         val repository = ServiceLocator.settingsRepository()
-                        repository.saveConfig(config.copy(isConfigured = true))
+                        coroutineScope.launch {
+                            repository.saveConfig(config.copy(isConfigured = true))
+                        }
                         config = config.copy(isConfigured = true)
                         currentScreen = AppScreen.QUEUE
                     }
