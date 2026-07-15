@@ -66,10 +66,12 @@ fun SettingsScreen(
                 config = editedConfig,
                 onConfigChange = { editedConfig = it },
                 onTestConnection = {
-                    isTesting = true
-                    val result = onTestConnection()
-                    testResult = if (result) "الاتصال ناجح" : "فشل الاتصال"
-                    isTesting = false
+                    scope.launch {
+                        isTesting = true
+                        val result = onTestConnection()
+                        testResult = if (result) "الاتصال ناجح" else "فشل الاتصال"
+                        isTesting = false
+                    }
                 },
                 testResult = testResult,
                 isTesting = isTesting,
